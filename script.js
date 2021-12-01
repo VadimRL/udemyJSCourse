@@ -1,120 +1,74 @@
 "use strict";
 
-/*for (let prop in personalMovieDB) {
-	let key = personalMovieDB[prop];
-	if (prop == "movies") {
-		personalMovieDB[prop] = {
-			[lastMovie]: rate,
+let numberOfFilms;
+
+function start() {
+	numberOfFilms = +prompt("Сколько фильмов вы смотрели?", "");
+
+	while (numberOfFilms == null || numberOfFilms == '' || isNaN(numberOfFilms)) {
+		numberOfFilms = +prompt("Сколько фильмов вы смотрели?", "");
+	}
+}
+
+start();
+
+const personalMoviesDB = {
+	count: numberOfFilms,
+	movies: {},
+	actors: {},
+	genres: [],
+	privat: false,
+};
+
+
+function rememberMyFilms() {
+	for (let i = 0; i < 2; i++) {
+		const a = prompt('Один из последних просмотренных фильмов?', ''),
+			  b = prompt('На сколько его оцените?', '');
+
+		if (a != null && b != null && a != '' && b != '' && a.length < 50) {
+			personalMoviesDB.movies[a] = b;
+			console.log("done");
+		} else {
+			console.log('error');
+			i--;
 		}
 	}
-}*/
-
-/*const numberOfFilms = +prompt('Сколько фильмов вы уже посмотрели?', '');
-let rate;
-let lastMovie;
-
-const personalMovieDB = {
-	count: numberOfFilms,
-	movies: {},
-	actors: {},
-	genres: [],
-	privat: false,
-};
-
-let i = 2;
-
-while (i) {
-	lastMovie = prompt('Один из последних просмотренных фильмов?', '');
-	rate = prompt('Насколько его оцените?', '');
-
-	if (!rate || 
-		!lastMovie || 
-		rate.length > 50 || 
-		lastMovie.length > 50 || 
-		!rate.trim() || 
-		!lastMovie.trim()) continue;
-
-	i--;
-
-	writeMovie(lastMovie, rate);
 }
 
-checkCount(personalMovieDB);
+rememberMyFilms();
 
-
-function writeMovie(movie, rate) {
-	personalMovieDB.movies[movie] = rate;
-}
-
-function checkCount(dataBase) {
-	let count = dataBase.count;
-
-	if (count <= 10) {
+function detectPersonalLevel() {
+	if (personalMoviesDB.count >= 0 && personalMoviesDB.count < 10) {
 		console.log('Просмотрено довольно мало фильмов');
-	} else if (count > 10 && count <= 30) {
+	} else if (personalMoviesDB.count >= 10 && personalMoviesDB.count < 30) {
 		console.log('Вы классический зритель');
-	} else if (count > 30) {
-		console.log('Вы кономан');
+	} else if (personalMoviesDB.count >= 30) {
+		console.log('Вы киноман');
 	} else {
 		console.log('Произошла ошибка');
 	}
-}
+} 
 
-console.log(personalMovieDB); */
+detectPersonalLevel();
 
-const numberOfFilms = +prompt('Сколько фильмов вы уже посмотрели?', '');
-let rate;
-let lastMovie;
-
-const personalMovieDB = {
-	count: numberOfFilms,
-	movies: {},
-	actors: {},
-	genres: [],
-	privat: false,
-};
-
-let i = 2;
-
-do{
-	lastMovie = prompt('Один из последних просмотренных фильмов?', '');
-	rate = prompt('Насколько его оцените?', '');
-
-	if (!rate || 
-		!lastMovie || 
-		rate.length > 50 || 
-		lastMovie.length > 50 || 
-		!rate.trim() || 
-		!lastMovie.trim()) continue;
-
-	i--;
-
-	writeMovie(lastMovie, rate);
-	// statement
-} while (i);
-
-
-checkCount(personalMovieDB);
-
-
-function writeMovie(movie, rate) {
-	personalMovieDB.movies[movie] = rate;
-}
-
-function checkCount(dataBase) {
-	let count = dataBase.count;
-
-	if (count <= 10) {
-		console.log('Просмотрено довольно мало фильмов');
-	} else if (count > 10 && count <= 30) {
-		console.log('Вы классический зритель');
-	} else if (count > 30) {
-		console.log('Вы кономан');
-	} else {
-		console.log('Произошла ошибка');
+function showMyDB() {
+	if (!personalMoviesDB.privat) {
+		console.log(personalMoviesDB);
 	}
 }
 
+showMyDB();
+
+function writeYourGenres() {
+	for (let i = 1; i <= 3; i++) {
+		let genre = prompt(`Ваш любимый жанр под номером ${i}`, '');
+		personalMoviesDB.genres[i - 1] = genre;
+	}
+}
+
+writeYourGenres();
 
 
-console.log(personalMovieDB);
+
+
